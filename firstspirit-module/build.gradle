@@ -41,7 +41,8 @@ import org.apache.tools.ant.filters.ReplaceTokens
 // list of jars that are packaged
 def jarlist = configurations.runtimeClasspath.collect{"${it.name}"}
 // ready-made list of <resources> entries for the module.xml
-def resourcesList = configurations.runtimeClasspath.collect{"<resource scope=\"server\">lib/${it.name}</resource>"}
+def fsmResourcesList = configurations.runtimeClasspath.collect{"<resource scope=\"server\">lib/${it.name}</resource>"}
+
 distributions {
   main {
    	distributionBaseName = project.name
@@ -54,7 +55,7 @@ distributions {
       }
       into('/META-INF/') {
 	    from('src/main/fsm-resources') {
-	    	expand(project.properties+[jarlist: jarlist, resourcesList: resourcesList])
+	    	expand(project: project, jarlist: jarlist, fsmResourcesList: fsmResourcesList)
 	    }
 	    dirMode = 0755
 	    fileMode = 0644

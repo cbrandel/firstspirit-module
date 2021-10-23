@@ -1,18 +1,18 @@
 <module>
-    <name>${name}</name>
-    <displayname>${name}</displayname>
-    <version>${version}</version>
-    <description>${groupId} - ${artifactId}</description>
-    <vendor>${vendorName}</vendor>
+    <name>${project.name}</name>
+    <displayname>${project.name}</displayname>
+    <version>${project.version}</version>
+    <description>${project.groupId} - ${project.artifactId}</description>
+    <vendor>${project.vendorName}</vendor>
     <components>
         
         <library>
             <name>ModuleLibrary</name>
-            <version>${version}</version>
+            <version>${project.version}</version>
             <resources>
                 <!-- generated resources from dependencies -->
-                <resource scope="server" name="serviceLib">lib/${name}-${version}.jar</resource>
-                ${resourcesList.join('\n')}
+                <resource scope="server" name="serviceLib">lib/${project.name}-${project.version}.jar</resource>
+                ${fsmResourcesList.join('\n')}
             </resources>
        </library>
    </components>
