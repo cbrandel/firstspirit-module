@@ -2,7 +2,7 @@
     <name>${project.name}</name>
     <displayname>${project.name} ${fsmIsolationDisplayName}</displayname>
     <version>${project.version}</version>
-    <description>${project.groupId} - ${project.artifactId}</description>
+    <description>${project.group} - ${project.name}</description>
     <vendor>${project.vendorName}</vendor>
     <components>
         
