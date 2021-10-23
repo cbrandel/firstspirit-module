@@ -1,0 +1,19 @@
+<module>
+    <name>${name}</name>
+    <displayname>${name}</displayname>
+    <version>${version}</version>
+    <description>${groupId} - ${artifactId}</description>
+    <vendor>${vendorName}</vendor>
+    <components>
+        
+        <library>
+            <name>ModuleLibrary</name>
+            <version>${version}</version>
+            <resources>
+                <!-- generated resources from dependencies -->
+                <resource scope="server" name="serviceLib">lib/${name}-${version}.jar</resource>
+                ${resourcesList.join('\n')}
+            </resources>
+       </library>
+   </components>
+</module>
