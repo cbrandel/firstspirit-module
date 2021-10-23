@@ -37,10 +37,11 @@ import org.apache.tools.ant.filters.ReplaceTokens
 def jarlist = configurations.runtimeClasspath.collect{"${it.name}"}
 // ready-made list of <resources> entries for the module.xml
 def fsmResourcesList = configurations.runtimeClasspath.collect{"<resource scope=\"server\">lib/${it.name}</resource>"}
-
+def fsmIsolationDisplayName = (moduleIsolationMode == "il" ? "(I, L)" : (moduleIsolationMode== "i"? "(I)" : "(L)"))
 distributions {
   main {
    	distributionBaseName = project.name
+   	// use leading slash for path to omit addition subdirectory in the zip
     contents {
       into('/lib/') {  // Copy the following jars to the /lib/ directory in the distribution archive
         from jar
@@ -50,7 +51,7 @@ distributions {
       }
       into('/META-INF/') {
 	    from('src/main/fsm-resources') {
-	    	expand(project: project, jarlist: jarlist, fsmResourcesList: fsmResourcesList)
+	    	expand(project: project, jarlist: jarlist, fsmResourcesList: fsmResourcesList, fsmIsolationDisplayName: fsmIsolationDisplayName)
 	    }
 	    dirMode = 0755
 	    fileMode = 0644
