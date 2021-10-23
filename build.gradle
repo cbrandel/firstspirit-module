@@ -37,7 +37,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 def jarlist = configurations.runtimeClasspath.collect{"${it.name}"}
 // ready-made list of <resources> entries for the module.xml
 def fsmResourcesList = configurations.runtimeClasspath.collect{"<resource scope=\"server\">lib/${it.name}</resource>"}
-def fsmIsolationDisplayName = (moduleIsolationMode == "il" ? "(I, L)" : (moduleIsolationMode== "i"? "(I)" : "(L)"))
+def fsmIsolationDisplayName = (fsmIsolationMode == "il" ? "(I, L)" : (fsmIsolationMode== "i"? "(I)" : "(L)"))
 distributions {
   main {
    	distributionBaseName = project.name

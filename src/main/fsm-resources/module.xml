@@ -1,9 +1,9 @@
 <module>
     <name>${project.name}</name>
-    <displayname>${project.name} ${fsmIsolationDisplayName}</displayname>
+    <displayname>${project.fsmDisplayName} ${fsmIsolationDisplayName}</displayname>
     <version>${project.version}</version>
-    <description>${project.group} - ${project.name}</description>
-    <vendor>${project.vendorName}</vendor>
+    <description>${project.fsmDescription}</description>
+    <vendor>${project.fsmVendorName}</vendor>
     <components>
         
         <library>
