@@ -1,18 +1,17 @@
 <module>
     <name>${project.name}</name>
-    <displayname>${project.fsmDisplayName} ${fsmIsolationDisplayName}</displayname>
+    <displayname>${project.fsmDisplayName} ${project.ext.fsmIsolationDisplayName}</displayname>
     <version>${project.version}</version>
     <description>${project.fsmDescription}</description>
     <vendor>${project.fsmVendorName}</vendor>
     <components>
-        
         <library>
             <name>ModuleLibrary</name>
             <version>${project.version}</version>
             <resources>
                 <!-- generated resources from dependencies -->
                 <resource scope="server" name="serviceLib">lib/${project.name}-${project.version}.jar</resource>
-                ${fsmResourcesList.join('\n')}
+                ${project.ext.fsmResourcesList.join('\n')}
             </resources>
        </library>
    </components>
