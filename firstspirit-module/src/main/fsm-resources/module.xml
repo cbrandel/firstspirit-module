@@ -1,6 +1,6 @@
 <module>
     <name>${project.name}</name>
-    <displayname>${project.name}</displayname>
+    <displayname>${project.name} ${project.moduleIsolation}</displayname>
     <version>${project.version}</version>
     <description>${project.groupId} - ${project.artifactId}</description>
     <vendor>${project.vendorName}</vendor>
