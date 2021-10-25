@@ -1,13 +1,31 @@
+/*
+ * fsm.gradle for FirstSpirit .fsm packaging
+ * https://docs.e-spirit.com/odfs/plug-developmen/implementation/module-architec/index.html
+ * some ideas from here  https://stackoverflow.com/questions/25398703/gradle-analogue-for-maven-assembly-plugin
+ */
+ 
+ // create list of <resources> entries for the fsm module.xml
+ ext.getResources = { ->
+ 	def resources = new ArrayList()
+ 	// calculate isolated mode
+ 	def fsmResourceScopeMode = (fsmIsolationMode == "il" ? "scope=\"module\" mode=\"isolated\"" : (fsmIsolationMode == "i" ? "scope=\"module\" mode=\"isolated\"" : "scope=\"server\""))
+	
+ 	// first add project artifact
+ 	resources.add("<resource name=\"${group}:${name}\" ${fsmResourceScopeMode} version=\"${version}\">lib/"+ jar.getArchiveFileName().get() + "</resource>")
+ 	resources.addAll(configurations.runtimeClasspath.resolvedConfiguration.resolvedArtifacts.collect {
+		"<resource name=\"${it.moduleVersion.id.module}\" ${fsmResourceScopeMode} version=\"${it.moduleVersion.id.version}\">lib/${it.name}-${it.moduleVersion.id.version}.${it.extension}</resource>"
+	})
+	return resources
+}
 
 ext {
 	// some properties for use in the module.xml
-	// list of jars that are packaged
-	jarlist = configurations.runtimeClasspath.collect{"${it.name}"}
 	// ready-made list of <resources> entries for the fsm module.xml
-	fsmResourcesList = configurations.runtimeClasspath.collect{"<resource scope=\"server\">lib/${it.name}</resource>"}
-	// displayname Suffix
-	fsmIsolationDisplayName = (fsmIsolationMode == "il" ? "(I, L)" : (fsmIsolationMode== "i"? "(I)" : "(L)"))
+	fsmResourcesList = getResources()
+	// displayname
+	fsmFullDisplayName = fsmDisplayName + (fsmIsolationMode == "il" ? "(I, L)" : (fsmIsolationMode== "i"? "(I)" : "(L)"))
 }
+
 // Do packaging for FirstSpirit Modules as .fsm
 import org.apache.tools.ant.filters.ReplaceTokens
 distributions {
@@ -31,7 +49,7 @@ distributions {
     }
   }
 }
-// create the file with .fsm instead of .zip
+// create the file with extension .fsm instead of .zip
 distZip {
 	archiveExtension = 'fsm'
 }
