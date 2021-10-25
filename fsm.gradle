@@ -1,0 +1,39 @@
+
+ext {
+	// some properties for use in the module.xml
+	// list of jars that are packaged
+	jarlist = configurations.runtimeClasspath.collect{"${it.name}"}
+	// ready-made list of <resources> entries for the fsm module.xml
+	fsmResourcesList = configurations.runtimeClasspath.collect{"<resource scope=\"server\">lib/${it.name}</resource>"}
+	// displayname Suffix
+	fsmIsolationDisplayName = (fsmIsolationMode == "il" ? "(I, L)" : (fsmIsolationMode== "i"? "(I)" : "(L)"))
+}
+// Do packaging for FirstSpirit Modules as .fsm
+import org.apache.tools.ant.filters.ReplaceTokens
+distributions {
+  main {
+   	distributionBaseName = project.name
+   	// use leading slash for path to omit addition subdirectory in the zip
+    contents {
+      into('/lib/') {  // Copy the following jars to the /lib/ directory in the distribution archive
+        from jar
+        from configurations.runtimeClasspath
+        dirMode = 0755
+        fileMode = 0644
+      }
+      into('/META-INF/') {
+	    from('src/main/fsm-resources') {
+	    	expand(project: project)
+	    }
+	    dirMode = 0755
+	    fileMode = 0644
+	  }
+    }
+  }
+}
+// create the file with .fsm instead of .zip
+distZip {
+	archiveExtension = 'fsm'
+}
+// don't create the .tar file
+tasks.distTar.enabled = false
